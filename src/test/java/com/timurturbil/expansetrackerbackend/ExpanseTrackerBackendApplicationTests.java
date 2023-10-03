@@ -1,0 +1,13 @@
+package com.timurturbil.expansetrackerbackend;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ExpanseTrackerBackendApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
