@@ -12,4 +12,10 @@ public class CategoryDto {
     private String name;
     private List<TransactionDto> transactions = new ArrayList<>();
 
+    public CategoryDto(Long id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
+    public CategoryDto(){}
 }

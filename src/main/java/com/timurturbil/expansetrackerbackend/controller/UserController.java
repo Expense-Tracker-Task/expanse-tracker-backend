@@ -1,14 +1,42 @@
 package com.timurturbil.expansetrackerbackend.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.timurturbil.expansetrackerbackend.dto.UserDto;
+import com.timurturbil.expansetrackerbackend.service.UserService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
-    @GetMapping(path = "/info", produces = "application/json")
-    public String getUserInfo() {
-        return "some user info";
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    public UserDto findUserById(@PathVariable int id) {
+        return userService.findUserById(id);
+    }
+
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    public UserDto saveUser(@RequestBody UserDto userDto) {
+        return userService.saveUser(userDto);
+    }
+
+    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    public UserDto updateUser(@PathVariable int id, @RequestBody UserDto userDto) {
+        return userService.updateUser(id, userDto);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+    }
+
+    @GetMapping(path = "/all", produces = "application/json")
+    public List<UserDto> getAllUsers(){
+        return userService.getAllUsers();
     }
 }
