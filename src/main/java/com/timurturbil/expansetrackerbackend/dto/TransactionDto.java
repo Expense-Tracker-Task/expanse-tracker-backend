@@ -15,4 +15,15 @@ public class TransactionDto {
     private LocalDateTime date;
     private String description;
 
+    public TransactionDto(Long id, UserDto user, CategoryDto category, BigDecimal amount, LocalDateTime date, String description){
+        this.id = id;
+        this.user = user;
+        this.category = category;
+        this.amount = amount;
+        this.date = date;
+        this.description = description;
+    }
+
+    public TransactionDto(){}
+
 }

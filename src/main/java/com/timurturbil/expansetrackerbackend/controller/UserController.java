@@ -20,14 +20,14 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "", consumes = "application/json", produces = "application/json")
     public UserDto saveUser(@RequestBody UserDto userDto) {
         return userService.saveUser(userDto);
     }
 
-    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
-    public UserDto updateUser(@PathVariable int id, @RequestBody UserDto userDto) {
-        return userService.updateUser(id, userDto);
+    @PutMapping(path = "", consumes = "application/json", produces = "application/json")
+    public UserDto updateUser(@RequestBody UserDto userDto) {
+        return userService.updateUser(userDto);
     }
 
     @DeleteMapping(path = "/{id}")

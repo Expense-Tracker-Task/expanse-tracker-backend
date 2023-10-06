@@ -19,14 +19,14 @@ public class CategoryController {
         return categoryService.findCategoryById(id);
     }
 
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "", consumes = "application/json", produces = "application/json")
     public CategoryDto saveCategory(@RequestBody CategoryDto categoryDto) {
         return categoryService.saveCategory(categoryDto);
     }
 
-    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
-    public CategoryDto updateCategory(@PathVariable int id, @RequestBody CategoryDto categoryDto) {
-        return categoryService.updateCategory(id, categoryDto);
+    @PutMapping(path = "", consumes = "application/json", produces = "application/json")
+    public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto) {
+        return categoryService.updateCategory(categoryDto);
     }
 
     @DeleteMapping(path = "/{id}")

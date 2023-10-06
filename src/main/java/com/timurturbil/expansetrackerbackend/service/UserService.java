@@ -35,8 +35,10 @@ public class UserService {
         userDto.setId(user.getId());
         return userDto;
     }
-    public UserDto updateUser(int id, UserDto userDto){
-        User user = repository.findById(id);
+
+    //TODO: update servisine bakılacak, refactor gerekebilir
+    public UserDto updateUser(UserDto userDto){
+        User user = repository.findById((long) userDto.getId());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());

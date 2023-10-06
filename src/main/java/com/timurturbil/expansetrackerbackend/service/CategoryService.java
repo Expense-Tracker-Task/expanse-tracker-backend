@@ -27,8 +27,10 @@ public class CategoryService {
         categoryDto.setId(category.getId());
         return categoryDto;
     }
-    public CategoryDto updateCategory(int id, CategoryDto categoryDto){
-        Category category = repository.findById(id);
+
+    //TODO: update servisine bakılacak, refactor gerekebilir
+    public CategoryDto updateCategory(CategoryDto categoryDto){
+        Category category = repository.findById((long) categoryDto.getId());
         category.setId(categoryDto.getId());
         category.setName(categoryDto.getName());
         category = repository.save(category);
