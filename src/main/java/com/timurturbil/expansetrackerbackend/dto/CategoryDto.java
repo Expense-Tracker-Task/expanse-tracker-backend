@@ -10,7 +10,6 @@ public class CategoryDto {
 
     private Long id;
     private String name;
-    private List<TransactionDto> transactions = new ArrayList<>();
 
     public CategoryDto(Long id, String name){
         this.id = id;

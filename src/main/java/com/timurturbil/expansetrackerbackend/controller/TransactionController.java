@@ -25,10 +25,10 @@ public class TransactionController {
         return transactionService.saveTransaction(transactionDto);
     }
 
-    @PutMapping(path = "", consumes = "application/json", produces = "application/json")
-    public TransactionDto updateTransaction(@RequestBody TransactionDto transactionDto) {
-        return transactionService.updateTransaction(transactionDto);
-    }
+//    @PutMapping(path = "", consumes = "application/json", produces = "application/json")
+//    public TransactionDto updateTransaction(@RequestBody TransactionDto transactionDto) {
+//        return transactionService.updateTransaction(transactionDto);
+//    }
 
     @DeleteMapping(path = "/{id}")
     public void deleteTransaction(@PathVariable int id) {
@@ -36,8 +36,7 @@ public class TransactionController {
     }
 
     @GetMapping(path = "/all", produces = "application/json")
-    public List<Transaction> getAllTransactions(){
+    public List<TransactionDto> getAllTransactions(){
         return transactionService.getAllTransactions();
-
     }
 }

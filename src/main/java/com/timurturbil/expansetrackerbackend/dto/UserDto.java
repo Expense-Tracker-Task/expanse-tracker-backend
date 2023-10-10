@@ -8,14 +8,16 @@ public class UserDto {
     private String username;
     private String password;
     private String email;
-    private String fullName;
+    private String firstName;
+    private String lastName;
 
-    public UserDto(Long id, String username, String password, String email, String fullName){
+    public UserDto(Long id, String username, String password, String email, String firstName, String lastName){
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.fullName = fullName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public UserDto(){}

@@ -21,8 +21,8 @@ public class Category {
     private String name;
 
     // One category can be associated with many transactions
-    @OneToMany(mappedBy = "category") // mappedBy = "category" means that the category field in the Transaction class is the owning side of the relationship
-    private List<Transaction> transactions = new ArrayList<>();
+    //    @OneToMany(mappedBy = "category") // mappedBy = "category" means that the category field in the Transaction class is the owning side of the relationship
+    //    private List<Transaction> transactions = new ArrayList<>();
 
     public Category(String name){
         this.name = name;
