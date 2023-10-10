@@ -1,5 +1,6 @@
 package com.timurturbil.expansetrackerbackend.controller;
 
+import com.timurturbil.expansetrackerbackend.dto.Response;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
 import com.timurturbil.expansetrackerbackend.entity.Transaction;
 import com.timurturbil.expansetrackerbackend.service.TransactionService;
@@ -16,12 +17,12 @@ public class TransactionController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    public TransactionDto findTransactionById(@PathVariable int id) {
+    public Response<TransactionDto> findTransactionById(@PathVariable int id) {
         return transactionService.findTransactionById(id);
     }
 
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public TransactionDto saveTransaction(@RequestBody TransactionDto transactionDto) {
+    public Response<TransactionDto> saveTransaction(@RequestBody TransactionDto transactionDto) {
         return transactionService.saveTransaction(transactionDto);
     }
 
@@ -31,12 +32,12 @@ public class TransactionController {
 //    }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteTransaction(@PathVariable int id) {
-        transactionService.deleteTransaction(id);
+    public Response<String> deleteTransaction(@PathVariable int id) {
+        return transactionService.deleteTransaction(id);
     }
 
     @GetMapping(path = "/all", produces = "application/json")
-    public List<TransactionDto> getAllTransactions(){
+    public Response<List<TransactionDto>> getAllTransactions(){
         return transactionService.getAllTransactions();
     }
 }

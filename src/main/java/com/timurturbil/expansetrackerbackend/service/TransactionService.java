@@ -1,6 +1,8 @@
 package com.timurturbil.expansetrackerbackend.service;
 
+import com.timurturbil.expansetrackerbackend.Constants;
 import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
+import com.timurturbil.expansetrackerbackend.dto.Response;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
 import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.entity.Category;
@@ -28,38 +30,45 @@ public class TransactionService {
         this.modelMapper = modelMapper;
     }
 
-    public TransactionDto findTransactionById(int id){
+    public Response<TransactionDto> findTransactionById(int id){
         try {
             Transaction transactionData = repository.findById(id);
-            return modelMapper.map(transactionData, TransactionDto.class);
+            TransactionDto transactionDto = modelMapper.map(transactionData, TransactionDto.class);
+            return new Response<>(Constants.SUCCESS, Constants.TRANSACTION_FOUND, transactionDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public TransactionDto saveTransaction(TransactionDto transactionDto){
+    public Response<TransactionDto> saveTransaction(TransactionDto transactionDto){
         try {
             Transaction transaction = modelMapper.map(transactionDto, Transaction.class);
             repository.save(transaction);
-            return transactionDto;
+            transactionDto.setId(transaction.getId());
+            return new Response<>(Constants.SUCCESS, Constants.TRANSACTION_SAVED, transactionDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public void deleteTransaction(int id){
-        repository.deleteById(id);
+    public Response<String> deleteTransaction(int id){
+        try {
+            repository.deleteById(id);
+            return new Response<>(Constants.SUCCESS, Constants.TRANSACTION_DELETED, null);
+        } catch (Exception e) {
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
+        }
     }
     
-    public List<TransactionDto> getAllTransactions(){
+    public Response<List<TransactionDto>> getAllTransactions(){
         try {
             Iterable<Transaction> iterableTransactions = repository.findAll();
             List<TransactionDto> transactionDtoList = new ArrayList<>();
             for(Transaction transaction : iterableTransactions){
                 transactionDtoList.add(modelMapper.map(transaction, TransactionDto.class));
             }
-            return transactionDtoList;
+            return new Response<>(Constants.SUCCESS, Constants.TRANSACTIONS_FOUND, transactionDtoList);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 

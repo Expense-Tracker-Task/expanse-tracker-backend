@@ -1,5 +1,7 @@
 package com.timurturbil.expansetrackerbackend.service;
 
+import com.timurturbil.expansetrackerbackend.Constants;
+import com.timurturbil.expansetrackerbackend.dto.Response;
 import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.entity.User;
 import com.timurturbil.expansetrackerbackend.repository.UserRepository;
@@ -18,26 +20,27 @@ public class UserService {
         this.repository = repository; this.modelMapper = modelMapper;
     }
 
-    public UserDto findUserById(int id){
+    public Response<UserDto> findUserById(int id){
         try {
             User user = repository.findById(id);
-            return modelMapper.map(user, UserDto.class);
+            UserDto useDto = modelMapper.map(user, UserDto.class);
+            return new Response<>(Constants.SUCCESS, Constants.USER_FOUND, useDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public UserDto saveUser(UserDto userDto){
+    public Response<UserDto> saveUser(UserDto userDto){
         try {
             User user = modelMapper.map(userDto, User.class);
             user = repository.save(user);
             userDto.setId(user.getId());
-            return userDto;
+            return new Response<>(Constants.SUCCESS, Constants.USER_SAVED, userDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public UserDto updateUser(UserDto userDto){
+    public Response<UserDto> updateUser(UserDto userDto){
         try {
             //GET USER FROM DB
             User user = repository.findById((long) userDto.getId());
@@ -52,25 +55,31 @@ public class UserService {
             //SAVE USER
             user = repository.save(user);
             userDto.setId(user.getId());
-            return userDto;
+            return new Response<>(Constants.SUCCESS, Constants.USER_UPDATED, userDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public void deleteUser(int id){
-        repository.deleteById(id);
+    public Response<String> deleteUser(int id){
+        try {
+            repository.deleteById((long) id);
+            return new Response<>(Constants.SUCCESS, Constants.USER_DELETED, null);
+        } catch (Exception e) {
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
+        }
     }
-    public List<UserDto> getAllUsers(){
+
+    public Response<List<UserDto>> getAllUsers(){
         try {
             Iterable<User> iterableUsers = repository.findAll();
-            List<UserDto> userDtos = new ArrayList<>();
+            List<UserDto> userDtoList = new ArrayList<>();
             for(User user : iterableUsers){
-                userDtos.add(modelMapper.map(user, UserDto.class));
+                userDtoList.add(modelMapper.map(user, UserDto.class));
             }
-            return userDtos;
+            return new Response<>(Constants.SUCCESS, Constants.USERS_FOUND, userDtoList);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 }

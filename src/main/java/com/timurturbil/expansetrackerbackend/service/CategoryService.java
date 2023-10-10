@@ -1,6 +1,8 @@
 package com.timurturbil.expansetrackerbackend.service;
 
+import com.timurturbil.expansetrackerbackend.Constants;
 import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
+import com.timurturbil.expansetrackerbackend.dto.Response;
 import com.timurturbil.expansetrackerbackend.entity.Category;
 import com.timurturbil.expansetrackerbackend.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -19,26 +21,27 @@ public class CategoryService {
         this.repository = repository;
         this.modelMapper = modelMapper;
     }
-    public CategoryDto findCategoryById(int id){
+    public Response<CategoryDto> findCategoryById(int id){
         try {
             Category categoryData = repository.findById(id);
-            return modelMapper.map(categoryData, CategoryDto.class);
+            CategoryDto categoryDto = modelMapper.map(categoryData, CategoryDto.class);
+            return new Response<>(Constants.SUCCESS, Constants.CATEGORY_FOUND, categoryDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public CategoryDto saveCategory(CategoryDto categoryDto){
+    public Response<CategoryDto> saveCategory(CategoryDto categoryDto){
         try {
             Category category = modelMapper.map(categoryDto, Category.class);
             repository.save(category);
-            return categoryDto;
+            categoryDto.setId(category.getId());
+            return new Response<>(Constants.SUCCESS, Constants.CATEGORY_SAVED, categoryDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    //TODO: update servisine bakılacak, refactor gerekebilir
-    public CategoryDto updateCategory(CategoryDto categoryDto){
+    public Response<CategoryDto> updateCategory(CategoryDto categoryDto){
         try {
             //GET CATEGORY FROM DB
             Category category = repository.findById((long) categoryDto.getId());
@@ -46,26 +49,32 @@ public class CategoryService {
             category.setName(categoryDto.getName());
             //SAVE CATEGORY
             repository.save(category);
-            return categoryDto;
+            categoryDto.setId(category.getId());
+            return new Response<>(Constants.SUCCESS, Constants.CATEGORY_UPDATED, categoryDto);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public List<CategoryDto> getAllCategories(){
+    public Response<String> deleteCategory(int id){
+        try {
+            repository.deleteById((long) id);
+            return new Response<>(Constants.SUCCESS, Constants.CATEGORY_DELETED, null);
+        } catch (Exception e) {
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
+        }
+    }
+
+    public Response<List<CategoryDto>> getAllCategories(){
         try {
             Iterable<Category> iterableCategories = repository.findAll();
             List<CategoryDto> categoryDtoList = new ArrayList<>();
             for(Category category : iterableCategories){
                 categoryDtoList.add(modelMapper.map(category, CategoryDto.class));
             }
-            return categoryDtoList;
+            return new Response<>(Constants.SUCCESS, Constants.CATEGORIES_FOUND, categoryDtoList);
         } catch (Exception e) {
-            return null;
+            return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
-    }
-
-    public void deleteCategory(int id){
-        repository.deleteById(id);
     }
 }

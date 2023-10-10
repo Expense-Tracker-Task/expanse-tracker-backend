@@ -1,6 +1,7 @@
 package com.timurturbil.expansetrackerbackend.controller;
 
 import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
+import com.timurturbil.expansetrackerbackend.dto.Response;
 import com.timurturbil.expansetrackerbackend.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -15,27 +16,27 @@ public class CategoryController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    public CategoryDto findCategoryById(@PathVariable int id) {
+    public Response<CategoryDto> findCategoryById(@PathVariable int id) {
         return categoryService.findCategoryById(id);
     }
 
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public CategoryDto saveCategory(@RequestBody CategoryDto categoryDto) {
+    public Response<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto) {
         return categoryService.saveCategory(categoryDto);
     }
 
     @PutMapping(path = "", consumes = "application/json", produces = "application/json")
-    public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto) {
+    public Response<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) {
         return categoryService.updateCategory(categoryDto);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteCategory(@PathVariable int id) {
-        categoryService.deleteCategory(id);
+    public Response<String> deleteCategory(@PathVariable int id) {
+        return categoryService.deleteCategory(id);
     }
 
     @GetMapping(path = "/all", produces = "application/json")
-    public List<CategoryDto> getAllCategories(){
+    public Response<List<CategoryDto>> getAllCategories(){
         return categoryService.getAllCategories();
     }
 }
