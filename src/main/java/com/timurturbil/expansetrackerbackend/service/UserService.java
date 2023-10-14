@@ -1,7 +1,7 @@
 package com.timurturbil.expansetrackerbackend.service;
 
 import com.timurturbil.expansetrackerbackend.Constants;
-import com.timurturbil.expansetrackerbackend.dto.Response;
+import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.entity.User;
 import com.timurturbil.expansetrackerbackend.repository.UserRepository;
@@ -23,27 +23,27 @@ public class UserService implements UserDetailsService {
         this.repository = repository; this.modelMapper = modelMapper;
     }
 
-    public Response<UserDto> findUserById(int id){
+    public GenericResponse<UserDto> findUserById(int id){
         try {
             User user = repository.findById(id);
             UserDto useDto = modelMapper.map(user, UserDto.class);
-            return new Response<>(Constants.SUCCESS, Constants.USER_FOUND, useDto);
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_FOUND, useDto);
         } catch (Exception e) {
-            return new Response<>(Constants.ERROR, e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public Response<UserDto> saveUser(UserDto userDto){
+    public GenericResponse<UserDto> saveUser(UserDto userDto){
         try {
             User user = modelMapper.map(userDto, User.class);
             user = repository.save(user);
             userDto.setId(user.getId());
-            return new Response<>(Constants.SUCCESS, Constants.USER_SAVED, userDto);
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_SAVED, userDto);
         } catch (Exception e) {
-            return new Response<>(Constants.ERROR, e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public Response<UserDto> updateUser(UserDto userDto){
+    public GenericResponse<UserDto> updateUser(UserDto userDto){
         try {
             //GET USER FROM DB
             User user = repository.findById((long) userDto.getId());
@@ -58,31 +58,31 @@ public class UserService implements UserDetailsService {
             //SAVE USER
             user = repository.save(user);
             userDto.setId(user.getId());
-            return new Response<>(Constants.SUCCESS, Constants.USER_UPDATED, userDto);
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_UPDATED, userDto);
         } catch (Exception e) {
-            return new Response<>(Constants.ERROR, e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public Response<String> deleteUser(int id){
+    public GenericResponse<String> deleteUser(int id){
         try {
             repository.deleteById(id);
-            return new Response<>(Constants.SUCCESS, Constants.USER_DELETED, null);
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_DELETED, null);
         } catch (Exception e) {
-            return new Response<>(Constants.ERROR, e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public Response<List<UserDto>> getAllUsers(){
+    public GenericResponse<List<UserDto>> getAllUsers(){
         try {
             Iterable<User> iterableUsers = repository.findAll();
             List<UserDto> userDtoList = new ArrayList<>();
             for(User user : iterableUsers){
                 userDtoList.add(modelMapper.map(user, UserDto.class));
             }
-            return new Response<>(Constants.SUCCESS, Constants.USERS_FOUND, userDtoList);
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USERS_FOUND, userDtoList);
         } catch (Exception e) {
-            return new Response<>(Constants.ERROR, e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 

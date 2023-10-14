@@ -1,8 +1,7 @@
 package com.timurturbil.expansetrackerbackend.controller;
 
-import com.timurturbil.expansetrackerbackend.dto.Response;
+import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
-import com.timurturbil.expansetrackerbackend.entity.Transaction;
 import com.timurturbil.expansetrackerbackend.service.TransactionService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +16,12 @@ public class TransactionController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    public Response<TransactionDto> findTransactionById(@PathVariable int id) {
+    public GenericResponse<TransactionDto> findTransactionById(@PathVariable int id) {
         return transactionService.findTransactionById(id);
     }
 
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public Response<TransactionDto> saveTransaction(@RequestBody TransactionDto transactionDto) {
+    public GenericResponse<TransactionDto> saveTransaction(@RequestBody TransactionDto transactionDto) {
         return transactionService.saveTransaction(transactionDto);
     }
 
@@ -32,12 +31,12 @@ public class TransactionController {
 //    }
 
     @DeleteMapping(path = "/{id}")
-    public Response<String> deleteTransaction(@PathVariable int id) {
+    public GenericResponse<String> deleteTransaction(@PathVariable int id) {
         return transactionService.deleteTransaction(id);
     }
 
     @GetMapping(path = "/all", produces = "application/json")
-    public Response<List<TransactionDto>> getAllTransactions(){
+    public GenericResponse<List<TransactionDto>> getAllTransactions(){
         return transactionService.getAllTransactions();
     }
 }

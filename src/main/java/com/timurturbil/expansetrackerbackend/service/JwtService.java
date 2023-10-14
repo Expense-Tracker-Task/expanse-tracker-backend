@@ -1,7 +1,7 @@
 package com.timurturbil.expansetrackerbackend.service;
 
 
-import com.timurturbil.expansetrackerbackend.dto.Response;
+import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
-    public Response<String> generateToken(String username) {
+    public GenericResponse<String> generateToken(String username) {
         try {
             //CREATE CLAIMS
             Map<String, Object> claims = new HashMap<>();
@@ -53,9 +53,9 @@ public class JwtService {
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
 
             //RETURN RESPONSE
-            return new Response<>("success", "User logged in successfully", token);
+            return new GenericResponse<>("success", "User logged in successfully", token);
         } catch (Exception e) {
-            return new Response<>("error", e.getMessage(), null);
+            return new GenericResponse<>("error", e.getMessage(), null);
         }
     }
 

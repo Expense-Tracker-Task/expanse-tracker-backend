@@ -2,7 +2,7 @@ package com.timurturbil.expansetrackerbackend.service;
 
 import com.timurturbil.expansetrackerbackend.Constants;
 import com.timurturbil.expansetrackerbackend.dto.AuthResponse;
-import com.timurturbil.expansetrackerbackend.dto.Response;
+import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.entity.User;
 import com.timurturbil.expansetrackerbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    public Response<AuthResponse> register(AuthResponse authResponse) {
+    public GenericResponse<AuthResponse> register(AuthResponse authResponse) {
         try {
             //CREATE USER OBJECT AND SET PROPERTIES FROM AUTH RESPONSE
             var user = new User();
@@ -36,15 +36,15 @@ public class AuthService {
             authResponse.setAccessToken(jwtToken);
 
             //RETURN RESPONSE
-            return new Response<>(Constants.SUCCESS, Constants.USER_REGISTERED, authResponse);
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_REGISTERED, authResponse);
         } catch (Exception e) {
-            return new Response<>(Constants.ERROR, e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
     //TODO: refresh token to get new access token
     //TODO: revoke token to logout user
-    public Response<AuthResponse> login(AuthResponse authResponse) {
+    public GenericResponse<AuthResponse> login(AuthResponse authResponse) {
         try {
             //SET USERNAME AND PASSWORD
             String username = authResponse.getUsername();
@@ -71,9 +71,9 @@ public class AuthService {
             authResponse.setAccessToken(jwtToken);
 
             //RETURN RESPONSE
-            return new Response<>(Constants.SUCCESS, Constants.USER_LOGGED_IN, authResponse);
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_LOGGED_IN, authResponse);
         } catch (Exception e) {
-            return new Response<>(Constants.ERROR, e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 

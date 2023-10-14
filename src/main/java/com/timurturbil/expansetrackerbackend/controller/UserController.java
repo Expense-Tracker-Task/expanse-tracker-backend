@@ -1,6 +1,6 @@
 package com.timurturbil.expansetrackerbackend.controller;
 
-import com.timurturbil.expansetrackerbackend.dto.Response;
+import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -17,27 +17,27 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    public Response<UserDto> findUserById(@PathVariable int id) {
+    public GenericResponse<UserDto> findUserById(@PathVariable int id) {
         return userService.findUserById(id);
     }
 
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public Response<UserDto> saveUser(@RequestBody UserDto userDto) {
+    public GenericResponse<UserDto> saveUser(@RequestBody UserDto userDto) {
         return userService.saveUser(userDto);
     }
 
     @PutMapping(path = "", consumes = "application/json", produces = "application/json")
-    public Response<UserDto> updateUser(@RequestBody UserDto userDto) {
+    public GenericResponse<UserDto> updateUser(@RequestBody UserDto userDto) {
         return userService.updateUser(userDto);
     }
 
     @DeleteMapping(path = "/{id}")
-    public Response<String> deleteUser(@PathVariable int id) {
+    public GenericResponse<String> deleteUser(@PathVariable int id) {
         return userService.deleteUser(id);
     }
 
     @GetMapping(path = "/all", produces = "application/json")
-    public Response<List<UserDto>> getAllUsers(){
+    public GenericResponse<List<UserDto>> getAllUsers(){
         return userService.getAllUsers();
     }
 }
