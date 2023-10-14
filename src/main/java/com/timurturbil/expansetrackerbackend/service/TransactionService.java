@@ -1,24 +1,15 @@
 package com.timurturbil.expansetrackerbackend.service;
 
 import com.timurturbil.expansetrackerbackend.Constants;
-import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
 import com.timurturbil.expansetrackerbackend.dto.Response;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
-import com.timurturbil.expansetrackerbackend.dto.UserDto;
-import com.timurturbil.expansetrackerbackend.entity.Category;
 import com.timurturbil.expansetrackerbackend.entity.Transaction;
-import com.timurturbil.expansetrackerbackend.entity.User;
-import com.timurturbil.expansetrackerbackend.repository.CategoryRepository;
 import com.timurturbil.expansetrackerbackend.repository.TransactionRepository;
-import com.timurturbil.expansetrackerbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -49,7 +40,6 @@ public class TransactionService {
             return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-
     public Response<String> deleteTransaction(int id){
         try {
             repository.deleteById(id);
@@ -58,7 +48,7 @@ public class TransactionService {
             return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    
+
     public Response<List<TransactionDto>> getAllTransactions(){
         try {
             Iterable<Transaction> iterableTransactions = repository.findAll();

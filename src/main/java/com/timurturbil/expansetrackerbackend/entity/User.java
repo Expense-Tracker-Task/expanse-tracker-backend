@@ -1,6 +1,7 @@
 package com.timurturbil.expansetrackerbackend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity(name="User") // This tells Hibernate to make a table out of this class
 @Table(name="Users")

@@ -40,7 +40,6 @@ public class CategoryService {
             return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-
     public Response<CategoryDto> updateCategory(CategoryDto categoryDto){
         try {
             //GET CATEGORY FROM DB
@@ -55,7 +54,6 @@ public class CategoryService {
             return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-
     public Response<String> deleteCategory(int id){
         try {
             repository.deleteById((long) id);
@@ -64,7 +62,6 @@ public class CategoryService {
             return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-
     public Response<List<CategoryDto>> getAllCategories(){
         try {
             Iterable<Category> iterableCategories = repository.findAll();

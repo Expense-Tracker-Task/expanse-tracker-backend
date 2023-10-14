@@ -1,16 +1,5 @@
 package com.timurturbil.expansetrackerbackend;
 
-//import com.timurturbil.expansetrackerbackend.entity.Category;
-//import com.timurturbil.expansetrackerbackend.entity.Transaction;
-//import com.timurturbil.expansetrackerbackend.entity.User;
-//import com.timurturbil.expansetrackerbackend.repository.CategoryRepository;
-//import com.timurturbil.expansetrackerbackend.repository.TransactionRepository;
-//import com.timurturbil.expansetrackerbackend.repository.UserRepository;
-//import org.springframework.boot.CommandLineRunner;
-//import org.springframework.context.annotation.Bean;
-//import java.math.BigDecimal;
-//import java.time.LocalDateTime;
-
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;

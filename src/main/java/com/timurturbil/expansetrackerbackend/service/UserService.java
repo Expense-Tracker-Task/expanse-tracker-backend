@@ -6,12 +6,15 @@ import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.entity.User;
 import com.timurturbil.expansetrackerbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository repository;
 
     private final ModelMapper modelMapper;
@@ -63,7 +66,7 @@ public class UserService {
 
     public Response<String> deleteUser(int id){
         try {
-            repository.deleteById((long) id);
+            repository.deleteById(id);
             return new Response<>(Constants.SUCCESS, Constants.USER_DELETED, null);
         } catch (Exception e) {
             return new Response<>(Constants.ERROR, e.getMessage(), null);
@@ -81,5 +84,13 @@ public class UserService {
         } catch (Exception e) {
             return new Response<>(Constants.ERROR, e.getMessage(), null);
         }
+    }
+
+    //TODO: entity user modeli ile userdetails'in user model isimleri aynı olduğu için bu şekilde uzattım.
+    //TODO: Kendi user entity modelimin ismini farklılaştırabilirim düzeltmek için
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findByUsername(username);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 }
