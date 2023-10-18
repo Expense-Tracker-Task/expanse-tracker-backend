@@ -3,17 +3,17 @@ package com.timurturbil.expansetrackerbackend.controller;
 import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/category")
+@RequiredArgsConstructor
 public class CategoryController {
-    private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private final CategoryService categoryService;
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public GenericResponse<CategoryDto> findCategoryById(@PathVariable int id) {

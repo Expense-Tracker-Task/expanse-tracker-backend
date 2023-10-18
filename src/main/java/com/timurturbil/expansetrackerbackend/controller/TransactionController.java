@@ -6,6 +6,8 @@ import com.timurturbil.expansetrackerbackend.service.TransactionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/transaction")
 public class TransactionController {

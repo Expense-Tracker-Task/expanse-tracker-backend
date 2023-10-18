@@ -3,18 +3,18 @@ package com.timurturbil.expansetrackerbackend.controller;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/user")
+@RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public GenericResponse<UserDto> findUserById(@PathVariable int id) {
