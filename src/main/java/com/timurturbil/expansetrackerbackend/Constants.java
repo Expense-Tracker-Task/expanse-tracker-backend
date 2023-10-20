@@ -15,6 +15,7 @@ public class Constants {
     public static final String USER_UPDATED = "User updated";
     public static final String USER_DELETED = "User deleted";
     public static final String USERS_FOUND = "Users found";
+    public static final String USER_NOT_FOUND = "User not found";
 
     //CATEGORY
     public static final String CATEGORY_FOUND = "Category found";

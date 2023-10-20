@@ -50,6 +50,10 @@ public class AuthService {
             String username = authResponse.getUsername();
             String password = authResponse.getPassword();
 
+            //GET USER FROM DATABASE
+            User user = userRepository.findByUsername(username);
+            if(user == null) return new GenericResponse<>(Constants.ERROR, Constants.USER_NOT_FOUND, null);
+
             //AUTHENTICATE USER
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -57,9 +61,6 @@ public class AuthService {
                             password
                     )
             );
-
-            //GET USER FROM DATABASE
-            User user = userRepository.findByUsername(username);
 
             //GENERATE TOKEN
             String jwtToken = jwtService.generateToken(username).getData();
