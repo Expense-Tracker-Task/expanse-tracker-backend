@@ -1,5 +1,6 @@
 package com.timurturbil.expansetrackerbackend.controller;
 
+import com.timurturbil.expansetrackerbackend.Constants;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
 import com.timurturbil.expansetrackerbackend.service.TransactionService;
@@ -19,9 +20,8 @@ import java.util.Map;
 public class TransactionController {
     private final TransactionService transactionService;
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
+    public GenericResponse<Map<String, String>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -29,7 +29,7 @@ public class TransactionController {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return errors;
+        return new GenericResponse<>(Constants.ERROR, Constants.VALIDATION_FAILED, errors);
     }
 
     public TransactionController(TransactionService transactionService) {

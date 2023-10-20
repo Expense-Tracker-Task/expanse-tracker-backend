@@ -4,6 +4,8 @@ public class Constants {
     public static final boolean ERROR = false;
     public static final boolean SUCCESS = true;
 
+    public static final String VALIDATION_FAILED = "Validation failed";
+
     //AUTH
     public static final String USER_REGISTERED = "User registered successfully";
     public static final String USER_LOGGED_IN = "User logged in successfully";
