@@ -1,8 +1,8 @@
 package com.timurturbil.expansetrackerbackend;
 
 public class Constants {
-    public static final String ERROR = "error";
-    public static final String SUCCESS = "success";
+    public static final boolean ERROR = false;
+    public static final boolean SUCCESS = true;
 
     //AUTH
     public static final String USER_REGISTERED = "User registered successfully";

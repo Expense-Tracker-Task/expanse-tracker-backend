@@ -1,6 +1,7 @@
 package com.timurturbil.expansetrackerbackend.service;
 
 
+import com.timurturbil.expansetrackerbackend.Constants;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -53,9 +54,9 @@ public class JwtService {
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
 
             //RETURN RESPONSE
-            return new GenericResponse<>("success", "User logged in successfully", token);
+            return new GenericResponse<>(Constants.SUCCESS, "User logged in successfully", token);
         } catch (Exception e) {
-            return new GenericResponse<>("error", e.getMessage(), null);
+            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
