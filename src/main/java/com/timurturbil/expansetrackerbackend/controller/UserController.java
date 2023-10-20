@@ -3,10 +3,16 @@ package com.timurturbil.expansetrackerbackend.controller;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -16,18 +22,31 @@ public class UserController {
 
     private final UserService userService;
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+    }
+
     @GetMapping(path = "/{id}", produces = "application/json")
     public GenericResponse<UserDto> findUserById(@PathVariable int id) {
         return userService.findUserById(id);
     }
 
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public GenericResponse<UserDto> saveUser(@RequestBody UserDto userDto) {
+    public GenericResponse<UserDto> saveUser(@Valid @RequestBody UserDto userDto) {
         return userService.saveUser(userDto);
     }
 
     @PutMapping(path = "", consumes = "application/json", produces = "application/json")
-    public GenericResponse<UserDto> updateUser(@RequestBody UserDto userDto) {
+    public GenericResponse<UserDto> updateUser(@Valid @RequestBody UserDto userDto) {
         return userService.updateUser(userDto);
     }
 

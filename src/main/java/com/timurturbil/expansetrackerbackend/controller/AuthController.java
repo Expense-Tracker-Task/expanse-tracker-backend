@@ -3,8 +3,15 @@ package com.timurturbil.expansetrackerbackend.controller;
 import com.timurturbil.expansetrackerbackend.dto.AuthResponse;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -14,15 +21,28 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+    }
+
     @PostMapping("/register")
     public GenericResponse<AuthResponse> register(
-            @RequestBody AuthResponse request
+            @Valid @RequestBody AuthResponse request
     ) {
         return authService.register(request);
     }
     @PostMapping("/login")
     public GenericResponse<AuthResponse> login(
-            @RequestBody AuthResponse request
+            @Valid  @RequestBody AuthResponse request
     ) {
         return authService.login(request);
     }

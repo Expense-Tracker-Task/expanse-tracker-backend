@@ -1,25 +1,29 @@
 package com.timurturbil.expansetrackerbackend.dto;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data //includes Getter, Setter, ToString, EqualsAndHashCode, RequiredArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
 
     private Long id;
+
+    @NotBlank(message = "Username is mandatory")
+    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     private String username;
+
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{3,20}$", message = "Password must contain at least one digit, one lowercase, one uppercase, one special character and no whitespace")
     private String password;
+
     private String email;
     private String firstName;
     private String lastName;
-
-    public UserDto(Long id, String username, String password, String email, String firstName, String lastName){
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public UserDto(){}
 
 }

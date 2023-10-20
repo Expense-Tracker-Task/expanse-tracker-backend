@@ -3,15 +3,34 @@ package com.timurturbil.expansetrackerbackend.controller;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
 import com.timurturbil.expansetrackerbackend.service.TransactionService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/transaction")
 public class TransactionController {
     private final TransactionService transactionService;
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+    }
 
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
@@ -23,7 +42,7 @@ public class TransactionController {
     }
 
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public GenericResponse<TransactionDto> saveTransaction(@RequestBody TransactionDto transactionDto) {
+    public GenericResponse<TransactionDto> saveTransaction(@Valid  @RequestBody TransactionDto transactionDto) {
         return transactionService.saveTransaction(transactionDto);
     }
 
