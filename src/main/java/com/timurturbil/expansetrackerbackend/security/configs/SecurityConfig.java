@@ -15,12 +15,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
+
+    private static final String[] WHITE_LIST_URL = {
+            "/auth/**",
+            "/category/**",
+            "/transaction/**",
+            "/user/**"
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable) // resolves 403 forbidden error
                 .authorizeHttpRequests(req  -> req
-                        .requestMatchers("/auth/**")
+                        .requestMatchers(WHITE_LIST_URL)
                         .permitAll()
                         .anyRequest()
                         .authenticated()
