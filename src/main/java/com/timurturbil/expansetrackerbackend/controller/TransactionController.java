@@ -4,18 +4,17 @@ import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
 import com.timurturbil.expansetrackerbackend.service.TransactionService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/transaction")
+@RequiredArgsConstructor
+
 public class TransactionController {
     private final TransactionService transactionService;
-
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public GenericResponse<TransactionDto> findTransactionById(@PathVariable int id) {
