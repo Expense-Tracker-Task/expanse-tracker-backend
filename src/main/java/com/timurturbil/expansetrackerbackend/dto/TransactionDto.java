@@ -1,6 +1,7 @@
 package com.timurturbil.expansetrackerbackend.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,18 +16,20 @@ public class TransactionDto {
 
     private Long id;
 
-    @NotBlank(message = "User is mandatory")
-    private UserDto user;
+    @NotBlank(message = "Name is mandatory")
+    private String name;
 
-    @NotBlank(message = "Category is mandatory")
-    private CategoryDto category;
-
-    @NotBlank(message = "Amount is mandatory")
+    @NotNull(message = "Amount is mandatory")
     private BigDecimal amount;
 
-    @NotBlank(message = "Date is mandatory")
+    @NotNull(message = "Date is mandatory")
     private LocalDateTime date;
 
     private String description;
 
+    @NotNull(message = "User is mandatory")
+    private UserDto user;
+
+    @NotNull(message = "Category is mandatory")
+    private CategoryDto category;
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(path = "/transaction")
+@RequestMapping("/transaction")
 @RequiredArgsConstructor
 
 public class TransactionController {
