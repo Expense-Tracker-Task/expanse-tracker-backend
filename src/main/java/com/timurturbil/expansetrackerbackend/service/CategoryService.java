@@ -7,6 +7,8 @@ import com.timurturbil.expansetrackerbackend.entity.Category;
 import com.timurturbil.expansetrackerbackend.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class CategoryService {
         try {
             Category categoryData = repository.findById(id);
             CategoryDto categoryDto = modelMapper.map(categoryData, CategoryDto.class);
+            categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORY_FOUND, categoryDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
@@ -35,6 +38,7 @@ public class CategoryService {
             Category category = modelMapper.map(categoryDto, Category.class);
             repository.save(category);
             categoryDto.setId(category.getId());
+            categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORY_SAVED, categoryDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
@@ -49,6 +53,7 @@ public class CategoryService {
             //SAVE CATEGORY
             repository.save(category);
             categoryDto.setId(category.getId());
+            categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORY_UPDATED, categoryDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
@@ -67,7 +72,9 @@ public class CategoryService {
             Iterable<Category> iterableCategories = repository.findAll();
             List<CategoryDto> categoryDtoList = new ArrayList<>();
             for(Category category : iterableCategories){
-                categoryDtoList.add(modelMapper.map(category, CategoryDto.class));
+                CategoryDto categoryDto = modelMapper.map(category, CategoryDto.class);
+                categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
+                categoryDtoList.add(categoryDto);
             }
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORIES_FOUND, categoryDtoList);
         } catch (Exception e) {
