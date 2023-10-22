@@ -1,4 +1,4 @@
-package com.timurturbil.expansetrackerbackend;
+package com.timurturbil.expansetrackerbackend.utils;
 
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import org.springframework.validation.FieldError;

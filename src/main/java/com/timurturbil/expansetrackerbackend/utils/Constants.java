@@ -1,4 +1,4 @@
-package com.timurturbil.expansetrackerbackend;
+package com.timurturbil.expansetrackerbackend.utils;
 
 public class Constants {
     public static final boolean ERROR = false;

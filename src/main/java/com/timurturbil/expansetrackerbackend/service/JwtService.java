@@ -1,7 +1,8 @@
 package com.timurturbil.expansetrackerbackend.service;
 
 
-import com.timurturbil.expansetrackerbackend.Constants;
+import com.timurturbil.expansetrackerbackend.entity.User;
+import com.timurturbil.expansetrackerbackend.utils.Constants;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -22,33 +23,47 @@ public class JwtService {
     @Value("${jwt.secret.key}")
     private String secretKey;
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    public int extractUserId(String bearerToken) {
+        String rawToken = bearerToken.split(" ")[1];
+        return extractClaim(rawToken, "id", Integer.class);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public String extractUsername(String token) {
+        return extractClaim(token, "username", String.class);
+    }
+
+    public Date extractExpirationDate(String token) {
+        return extractClaim(token, "exp", Date.class);
+    }
+
+    public <T> T extractClaim(String token, String claimName, Class<T> requiredType) {
         final Claims claims = Jwts
                                 .parserBuilder()
                                 .setSigningKey(getSignInKey())
                                 .build()
                                 .parseClaimsJws(token).getBody();
-        return claimsResolver.apply(claims);
+        return claims.get(claimName, requiredType);
     }
 
     public Boolean isTokenExpired(String token) {
-        return extractClaim(token, Claims::getExpiration).before(new Date());
+        return extractExpirationDate(token).before(new Date());
     }
 
-    public GenericResponse<String> generateToken(String username) {
+    public GenericResponse<String> generateToken(User user) {
         try {
             //CREATE CLAIMS
             Map<String, Object> claims = new HashMap<>();
+            claims.put("id", user.getId());
+            claims.put("username", user.getUsername());
+            claims.put("email", user.getEmail());
+            claims.put("firstName", user.getFirstName());
+            claims.put("lastName", user.getLastName());
 
             //CREATE TOKEN
             String token = Jwts
                     .builder()
                     .setClaims(claims)
-                    .setSubject(username)
+                    .setSubject(user.getUsername())
                     .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 100)) // 1000 * 60 * 60 * 10 (10 hours)
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();

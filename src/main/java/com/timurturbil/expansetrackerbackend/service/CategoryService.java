@@ -1,6 +1,6 @@
 package com.timurturbil.expansetrackerbackend.service;
 
-import com.timurturbil.expansetrackerbackend.Constants;
+import com.timurturbil.expansetrackerbackend.utils.Constants;
 import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.entity.Category;

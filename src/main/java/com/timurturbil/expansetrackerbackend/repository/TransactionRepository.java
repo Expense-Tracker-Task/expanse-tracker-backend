@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
     Transaction findById(long id);
     void deleteById(long id);
+
+    Iterable<Transaction> findAllByUserId(Long user_id);
 }

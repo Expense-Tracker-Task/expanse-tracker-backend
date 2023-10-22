@@ -1,23 +1,26 @@
 package com.timurturbil.expansetrackerbackend.service;
 
-import com.timurturbil.expansetrackerbackend.Constants;
+import com.timurturbil.expansetrackerbackend.utils.Constants;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
 import com.timurturbil.expansetrackerbackend.entity.Transaction;
 import com.timurturbil.expansetrackerbackend.repository.TransactionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class TransactionService {
     private final TransactionRepository repository;
+
+    private final JwtService jwtService;
     private final ModelMapper modelMapper;
 
-    public TransactionService(TransactionRepository repository, ModelMapper modelMapper) {
+    public TransactionService(TransactionRepository repository, JwtService jwtService, ModelMapper modelMapper) {
         this.repository = repository;
+        this.jwtService = jwtService;
         this.modelMapper = modelMapper;
     }
 
@@ -49,9 +52,10 @@ public class TransactionService {
         }
     }
 
-    public GenericResponse<List<TransactionDto>> getAllTransactions(){
+    public GenericResponse<List<TransactionDto>> getAllTransactions(String bearerToken){
         try {
-            Iterable<Transaction> iterableTransactions = repository.findAll();
+            int userId = jwtService.extractUserId(bearerToken);
+            Iterable<Transaction> iterableTransactions = repository.findAllByUserId((long) userId);
             List<TransactionDto> transactionDtoList = new ArrayList<>();
             for(Transaction transaction : iterableTransactions){
                 transactionDtoList.add(modelMapper.map(transaction, TransactionDto.class));

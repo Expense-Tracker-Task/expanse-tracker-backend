@@ -1,6 +1,6 @@
 package com.timurturbil.expansetrackerbackend.service;
 
-import com.timurturbil.expansetrackerbackend.Constants;
+import com.timurturbil.expansetrackerbackend.utils.Constants;
 import com.timurturbil.expansetrackerbackend.dto.AuthResponse;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.entity.User;
@@ -32,7 +32,7 @@ public class AuthService {
             userRepository.save(user);
 
             //GENERATE TOKEN AND SET IT TO AUTH RESPONSE
-            var jwtToken = jwtService.generateToken(authResponse.getUsername()).getData();
+            var jwtToken = jwtService.generateToken(user).getData();
             authResponse.setAccessToken(jwtToken);
 
             //RETURN RESPONSE
@@ -63,7 +63,7 @@ public class AuthService {
             );
 
             //GENERATE TOKEN
-            String jwtToken = jwtService.generateToken(username).getData();
+            String jwtToken = jwtService.generateToken(user).getData();
 
             //SET USER PROPERTIES AND TOKEN TO AUTH RESPONSE
             authResponse.setEmail(user.getEmail());

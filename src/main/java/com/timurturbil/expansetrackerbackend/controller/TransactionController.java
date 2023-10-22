@@ -37,7 +37,7 @@ public class TransactionController {
     }
 
     @GetMapping(path = "/all", produces = "application/json")
-    public GenericResponse<List<TransactionDto>> getAllTransactions(){
-        return transactionService.getAllTransactions();
+    public GenericResponse<List<TransactionDto>> getAllTransactions(@RequestHeader("Authorization") String bearerToken){
+        return transactionService.getAllTransactions(bearerToken);
     }
 }
