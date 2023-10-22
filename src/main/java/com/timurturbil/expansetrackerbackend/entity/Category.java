@@ -2,6 +2,8 @@ package com.timurturbil.expansetrackerbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +11,7 @@ import java.util.List;
 
 @Entity(name="Category") // This tells Hibernate to make a table out of this class
 @Table(name="Categories")
-@Data //includes Getter, Setter, ToString, EqualsAndHashCode, RequiredArgsConstructor
-
+@Data //includes Getter, Setter, ToString, EqualsAndHashCode
 public class Category {
 
     @Id // primary key
@@ -23,11 +24,5 @@ public class Category {
     // One category can be associated with many transactions
     //    @OneToMany(mappedBy = "category") // mappedBy = "category" means that the category field in the Transaction class is the owning side of the relationship
     //    private List<Transaction> transactions = new ArrayList<>();
-
-    public Category(String name){
-        this.name = name;
-    }
-
-    public Category(){}
 
 }

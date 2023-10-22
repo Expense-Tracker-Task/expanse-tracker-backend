@@ -1,11 +1,12 @@
 package com.timurturbil.expansetrackerbackend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity(name="User") // This tells Hibernate to make a table out of this class
 @Table(name="Users")
-@Data //includes Getter, Setter, ToString, EqualsAndHashCode, RequiredArgsConstructor
+@Data //includes Getter, Setter, ToString, EqualsAndHashCode
 public class User {
 
     @Id // primary key
@@ -26,15 +27,4 @@ public class User {
 
     @Column(nullable = false)
     private String lastName;
-
-    public User(String username, String password, String email, String firstName, String lastName){
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public User(){}
-
 }
