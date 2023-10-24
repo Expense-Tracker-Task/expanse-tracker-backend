@@ -25,6 +25,8 @@ public class TransactionDto {
     @NotNull(message = "Date is mandatory")
     private LocalDateTime date;
 
+    private boolean expense;
+
     private String description;
 
     @NotNull(message = "User is mandatory")

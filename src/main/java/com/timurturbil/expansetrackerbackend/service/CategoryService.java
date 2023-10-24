@@ -17,17 +17,19 @@ public class CategoryService {
 
     private final CategoryRepository repository;
 
+    private final JwtService jwtService;
+
     private final ModelMapper modelMapper;
 
-    public CategoryService(CategoryRepository repository, ModelMapper modelMapper) {
+    public CategoryService(CategoryRepository repository, JwtService jwtService, ModelMapper modelMapper) {
         this.repository = repository;
+        this.jwtService = jwtService;
         this.modelMapper = modelMapper;
     }
     public GenericResponse<CategoryDto> findCategoryById(int id){
         try {
             Category categoryData = repository.findById(id);
             CategoryDto categoryDto = modelMapper.map(categoryData, CategoryDto.class);
-            categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORY_FOUND, categoryDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
@@ -38,7 +40,6 @@ public class CategoryService {
             Category category = modelMapper.map(categoryDto, Category.class);
             repository.save(category);
             categoryDto.setId(category.getId());
-            categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORY_SAVED, categoryDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
@@ -53,7 +54,6 @@ public class CategoryService {
             //SAVE CATEGORY
             repository.save(category);
             categoryDto.setId(category.getId());
-            categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORY_UPDATED, categoryDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
@@ -67,13 +67,13 @@ public class CategoryService {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public GenericResponse<List<CategoryDto>> getAllCategories(){
+    public GenericResponse<List<CategoryDto>> getAllCategories(String bearerToken){
         try {
-            Iterable<Category> iterableCategories = repository.findAll();
+            int userId = jwtService.extractUserId(bearerToken);
+            Iterable<Category> iterableCategories = repository.findAllByUserId((long) userId);
             List<CategoryDto> categoryDtoList = new ArrayList<>();
             for(Category category : iterableCategories){
                 CategoryDto categoryDto = modelMapper.map(category, CategoryDto.class);
-                categoryDto.setAmount(BigDecimal.valueOf(120)); // TODO: Get the amount from the transactions
                 categoryDtoList.add(categoryDto);
             }
             return new GenericResponse<>(Constants.SUCCESS, Constants.CATEGORIES_FOUND, categoryDtoList);

@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     @GetMapping(path = "/all", produces = "application/json")
-    public GenericResponse<List<CategoryDto>> getAllCategories(){
-        return categoryService.getAllCategories();
+    public GenericResponse<List<CategoryDto>> getAllCategories(@RequestHeader("Authorization") String bearerToken){
+        return categoryService.getAllCategories(bearerToken);
     }
 }

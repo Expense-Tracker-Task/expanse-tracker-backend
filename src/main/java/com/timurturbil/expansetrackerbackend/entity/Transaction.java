@@ -26,9 +26,12 @@ public class Transaction {
     @Column(nullable = false)
     private LocalDateTime date;
 
+    @Column(nullable = false)
+    private boolean expense;
+
     private String description;
 
-    // One user van be associated with many transactions
+    // One user can be associated with many transactions
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

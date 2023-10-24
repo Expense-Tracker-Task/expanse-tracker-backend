@@ -2,11 +2,7 @@ package com.timurturbil.expansetrackerbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 
 @Entity(name="Category") // This tells Hibernate to make a table out of this class
@@ -21,8 +17,11 @@ public class Category {
     @Column(nullable = false) // not null
     private String name;
 
-    // One category can be associated with many transactions
-    //    @OneToMany(mappedBy = "category") // mappedBy = "category" means that the category field in the Transaction class is the owning side of the relationship
-    //    private List<Transaction> transactions = new ArrayList<>();
+    // One user can be associated with many categories
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @Column(nullable = false)
+    private BigDecimal amount;
 }
