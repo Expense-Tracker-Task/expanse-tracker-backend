@@ -5,6 +5,7 @@ import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.entity.Category;
 import com.timurturbil.expansetrackerbackend.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
     private final CategoryRepository repository;
@@ -21,11 +23,6 @@ public class CategoryService {
 
     private final ModelMapper modelMapper;
 
-    public CategoryService(CategoryRepository repository, JwtService jwtService, ModelMapper modelMapper) {
-        this.repository = repository;
-        this.jwtService = jwtService;
-        this.modelMapper = modelMapper;
-    }
     public GenericResponse<CategoryDto> findCategoryById(int id){
         try {
             Category categoryData = repository.findById(id);

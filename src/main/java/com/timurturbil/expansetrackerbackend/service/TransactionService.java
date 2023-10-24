@@ -5,6 +5,7 @@ import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.TransactionDto;
 import com.timurturbil.expansetrackerbackend.entity.Transaction;
 import com.timurturbil.expansetrackerbackend.repository.TransactionRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -12,17 +13,12 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
     private final TransactionRepository repository;
 
     private final JwtService jwtService;
     private final ModelMapper modelMapper;
-
-    public TransactionService(TransactionRepository repository, JwtService jwtService, ModelMapper modelMapper) {
-        this.repository = repository;
-        this.jwtService = jwtService;
-        this.modelMapper = modelMapper;
-    }
 
     public GenericResponse<TransactionDto> findTransactionById(int id){
         try {

@@ -5,6 +5,7 @@ import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.entity.User;
 import com.timurturbil.expansetrackerbackend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,14 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
 
     private final ModelMapper modelMapper;
-
-    public UserService(UserRepository repository, ModelMapper modelMapper) {
-        this.repository = repository; this.modelMapper = modelMapper;
-    }
 
     public GenericResponse<UserDto> findUserById(int id){
         try {
