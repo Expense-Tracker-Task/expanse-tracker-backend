@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,9 @@ public class AuthService {
             //GENERATE TOKEN AND SET IT TO AUTH RESPONSE
             var jwtToken = jwtService.generateToken(user).getData();
             authResponse.setAccessToken(jwtToken);
+
+            //SET BALANCE VALUE TO AUTH RESPONSE
+            authResponse.setBalance(BigDecimal.valueOf(0));
 
             //RETURN RESPONSE
             return new GenericResponse<>(Constants.SUCCESS, Constants.USER_REGISTERED, authResponse);
@@ -70,6 +74,7 @@ public class AuthService {
             authResponse.setFirstName(user.getFirstName());
             authResponse.setLastName(user.getLastName());
             authResponse.setAccessToken(jwtToken);
+            authResponse.setBalance(user.getBalance());
 
             //RETURN RESPONSE
             return new GenericResponse<>(Constants.SUCCESS, Constants.USER_LOGGED_IN, authResponse);

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -25,4 +26,5 @@ public class AuthResponse {
     private String firstName;
     private String lastName;
     private String accessToken;
+    private BigDecimal balance;
 }
