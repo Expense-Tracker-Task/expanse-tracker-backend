@@ -3,6 +3,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
+import java.math.BigDecimal;
 
 @Entity(name="User") // This tells Hibernate to make a table out of this class
 @Table(name="Users")
@@ -27,4 +31,8 @@ public class User {
 
     @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false, columnDefinition = "int default 0")
+    @Generated(GenerationTime.INSERT)
+    private BigDecimal balance;
 }
