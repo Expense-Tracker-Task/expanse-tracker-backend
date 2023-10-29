@@ -27,4 +27,5 @@ public class AuthResponse {
     private String lastName;
     private String accessToken;
     private BigDecimal balance;
+    private Long userId;
 }

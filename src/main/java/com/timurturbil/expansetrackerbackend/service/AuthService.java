@@ -40,6 +40,9 @@ public class AuthService {
             //SET BALANCE VALUE TO AUTH RESPONSE
             authResponse.setBalance(BigDecimal.valueOf(0));
 
+            //SET USER ID
+            authResponse.setUserId(user.getId());
+
             //RETURN RESPONSE
             return new GenericResponse<>(Constants.SUCCESS, Constants.USER_REGISTERED, authResponse);
         } catch (Exception e) {
@@ -76,6 +79,7 @@ public class AuthService {
             authResponse.setLastName(user.getLastName());
             authResponse.setAccessToken(jwtToken);
             authResponse.setBalance(user.getBalance());
+            authResponse.setUserId(user.getId());
 
             //RETURN RESPONSE
             return new GenericResponse<>(Constants.SUCCESS, Constants.USER_LOGGED_IN, authResponse);
