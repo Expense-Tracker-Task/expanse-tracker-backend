@@ -32,6 +32,6 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = true, columnDefinition = "NUMERIC DEFAULT 0")
+    @Column(nullable = false)
     private BigDecimal balance;
 }

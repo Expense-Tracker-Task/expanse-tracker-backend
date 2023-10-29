@@ -1,5 +1,6 @@
 package com.timurturbil.expansetrackerbackend.service;
 
+import com.timurturbil.expansetrackerbackend.dto.UserDto;
 import com.timurturbil.expansetrackerbackend.utils.Constants;
 import com.timurturbil.expansetrackerbackend.dto.CategoryDto;
 import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
@@ -32,8 +33,19 @@ public class CategoryService {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public GenericResponse<CategoryDto> saveCategory(CategoryDto categoryDto){
+    public GenericResponse<CategoryDto> saveCategory(CategoryDto categoryDto, String bearerToken){
         try {
+            //CREATE NEW USER OBJECT AND SET ID
+            int userId = jwtService.extractUserId(bearerToken);
+            UserDto userDto = new UserDto();
+            userDto.setId((long) userId);
+
+            //SET AMOUNT
+            categoryDto.setAmount(BigDecimal.ZERO);
+
+            //SET USER
+            categoryDto.setUser(userDto);
+
             Category category = modelMapper.map(categoryDto, Category.class);
             repository.save(category);
             categoryDto.setId(category.getId());

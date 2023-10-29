@@ -22,8 +22,8 @@ public class CategoryController {
     }
 
     @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public GenericResponse<CategoryDto> saveCategory(@Valid @RequestBody CategoryDto categoryDto) {
-        return categoryService.saveCategory(categoryDto);
+    public GenericResponse<CategoryDto> saveCategory(@Valid @RequestBody CategoryDto categoryDto, @RequestHeader("Authorization") String bearerToken) {
+        return categoryService.saveCategory(categoryDto, bearerToken);
     }
 
     @PutMapping(path = "", consumes = "application/json", produces = "application/json")

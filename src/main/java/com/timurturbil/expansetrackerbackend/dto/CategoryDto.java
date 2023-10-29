@@ -19,9 +19,6 @@ public class CategoryDto {
     @Length(min = 3, max = 20, message = "Name must be between 3 and 20 characters")
     private String name;
 
-    @NotNull(message = "User is mandatory")
     private UserDto user;
-
-    @NotNull(message = "Amount is mandatory")
     private BigDecimal amount;
 }

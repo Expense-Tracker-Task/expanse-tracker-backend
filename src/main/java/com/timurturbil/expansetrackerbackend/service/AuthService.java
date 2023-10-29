@@ -28,7 +28,7 @@ public class AuthService {
             user.setEmail(authResponse.getEmail());
             user.setFirstName(authResponse.getFirstName());
             user.setLastName(authResponse.getLastName());
-            user.setBalance(BigDecimal.valueOf(0));
+            user.setBalance(BigDecimal.ZERO);
 
             //SAVE USER
             userRepository.save(user);
