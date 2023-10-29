@@ -32,7 +32,6 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false, columnDefinition = "int default 0")
-    @Generated(GenerationTime.INSERT)
+    @Column(nullable = true, columnDefinition = "NUMERIC DEFAULT 0")
     private BigDecimal balance;
 }
