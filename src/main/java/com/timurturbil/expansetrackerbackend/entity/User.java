@@ -1,11 +1,7 @@
 package com.timurturbil.expansetrackerbackend.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 import java.math.BigDecimal;
 
 @Entity(name="User") // This tells Hibernate to make a table out of this class
