@@ -10,9 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,34 +21,32 @@ public class UserService implements UserDetailsService {
 
     private final ModelMapper modelMapper;
 
-    public GenericResponse<UserDto> findUserById(int id){
+    private final JwtService jwtService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public GenericResponse<UserDto> findUserById(String bearerToken){
         try {
-            User user = repository.findById(id);
+            int userId = jwtService.extractUserId(bearerToken);
+            User user = repository.findById(userId);
             UserDto useDto = modelMapper.map(user, UserDto.class);
             return new GenericResponse<>(Constants.SUCCESS, Constants.USER_FOUND, useDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public GenericResponse<UserDto> saveUser(UserDto userDto){
-        try {
-            User user = modelMapper.map(userDto, User.class);
-            user = repository.save(user);
-            userDto.setId(user.getId());
-            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_SAVED, userDto);
-        } catch (Exception e) {
-            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
-        }
-    }
 
-    public GenericResponse<UserDto> updateUser(UserDto userDto){
+    public GenericResponse<UserDto> updateUser(String bearerToken, UserDto userDto){
         try {
+            //EXTRACT USER ID FROM TOKEN
+            int userId = jwtService.extractUserId(bearerToken);
+
             //GET USER FROM DB
-            User user = repository.findById((long) userDto.getId());
+            User user = repository.findById(userId);
 
             //UPDATE USER
             user.setUsername(userDto.getUsername());
-            user.setPassword(userDto.getPassword());
+            user.setPassword(user.getPassword());
             user.setEmail(userDto.getEmail());
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
@@ -56,29 +54,29 @@ public class UserService implements UserDetailsService {
             //SAVE USER
             user = repository.save(user);
             userDto.setId(user.getId());
+
             return new GenericResponse<>(Constants.SUCCESS, Constants.USER_UPDATED, userDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
 
-    public GenericResponse<String> deleteUser(int id){
+    public GenericResponse<UserDto> updateUserPassword(String bearerToken, UserDto userDto){
         try {
-            repository.deleteById(id);
-            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_DELETED, null);
-        } catch (Exception e) {
-            return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
-        }
-    }
+            //EXTRACT USER ID FROM TOKEN
+            int userId = jwtService.extractUserId(bearerToken);
 
-    public GenericResponse<List<UserDto>> getAllUsers(){
-        try {
-            Iterable<User> iterableUsers = repository.findAll();
-            List<UserDto> userDtoList = new ArrayList<>();
-            for(User user : iterableUsers){
-                userDtoList.add(modelMapper.map(user, UserDto.class));
-            }
-            return new GenericResponse<>(Constants.SUCCESS, Constants.USERS_FOUND, userDtoList);
+            //GET USER FROM DB
+            User user = repository.findById(userId);
+
+            //UPDATE USER'S PASSWORD
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+            //SAVE USER
+            user = repository.save(user);
+            userDto.setId(user.getId());
+
+            return new GenericResponse<>(Constants.SUCCESS, Constants.USER_UPDATED, userDto);
         } catch (Exception e) {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }

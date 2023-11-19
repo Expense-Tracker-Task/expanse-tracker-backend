@@ -6,38 +6,27 @@ import com.timurturbil.expansetrackerbackend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping( "/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(path = "/{id}", produces = "application/json")
-    public GenericResponse<UserDto> findUserById(@PathVariable int id) {
-        return userService.findUserById(id);
+    @GetMapping(path = "/me", produces = "application/json")
+    public GenericResponse<UserDto> findUserById(@RequestHeader("Authorization") String bearerToken) {
+        return userService.findUserById(bearerToken);
     }
 
-    @PostMapping(path = "", consumes = "application/json", produces = "application/json")
-    public GenericResponse<UserDto> saveUser(@Valid @RequestBody UserDto userDto) {
-        return userService.saveUser(userDto);
+    @PutMapping(path = "/me", consumes = "application/json", produces = "application/json")
+    public GenericResponse<UserDto> updateUser(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody UserDto userDto) {
+        return userService.updateUser(bearerToken, userDto);
     }
 
-    @PutMapping(path = "", consumes = "application/json", produces = "application/json")
-    public GenericResponse<UserDto> updateUser(@Valid @RequestBody UserDto userDto) {
-        return userService.updateUser(userDto);
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public GenericResponse<String> deleteUser(@PathVariable int id) {
-        return userService.deleteUser(id);
-    }
-
-    @GetMapping(path = "/all", produces = "application/json")
-    public GenericResponse<List<UserDto>> getAllUsers(){
-        return userService.getAllUsers();
+    @PutMapping(path = "/me/password", consumes = "application/json", produces = "application/json")
+    public GenericResponse<UserDto> updateUserPassword(@RequestHeader("Authorization") String bearerToken, @RequestBody UserDto userDto) {
+        return userService.updateUserPassword(bearerToken, userDto);
     }
 }
