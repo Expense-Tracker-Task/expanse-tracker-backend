@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 @RequiredArgsConstructor
 
 public class TransactionController {
@@ -26,17 +26,12 @@ public class TransactionController {
         return transactionService.saveTransaction(transactionDto);
     }
 
-//    @PutMapping(path = "", consumes = "application/json", produces = "application/json")
-//    public TransactionDto updateTransaction(@RequestBody TransactionDto transactionDto) {
-//        return transactionService.updateTransaction(transactionDto);
-//    }
-
     @DeleteMapping(path = "/{id}")
     public GenericResponse<String> deleteTransaction(@PathVariable int id) {
         return transactionService.deleteTransaction(id);
     }
 
-    @GetMapping(path = "/all", produces = "application/json")
+    @GetMapping(path = "", produces = "application/json")
     public GenericResponse<List<TransactionDto>> getAllTransactions(@RequestHeader("Authorization") String bearerToken){
         return transactionService.getAllTransactions(bearerToken);
     }
