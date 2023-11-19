@@ -6,8 +6,6 @@ import com.timurturbil.expansetrackerbackend.dto.GenericResponse;
 import com.timurturbil.expansetrackerbackend.entity.User;
 import com.timurturbil.expansetrackerbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -18,7 +16,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
     public GenericResponse<AuthResponse> register(AuthResponse authResponse) {
         try {
             //CREATE USER OBJECT AND SET PROPERTIES FROM AUTH RESPONSE
@@ -62,13 +59,9 @@ public class AuthService {
             User user = userRepository.findByUsername(username);
             if(user == null) return new GenericResponse<>(Constants.ERROR, Constants.USER_NOT_FOUND, null);
 
-            //AUTHENTICATE USER
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            username,
-                            password
-                    )
-            );
+            //CHECK IF PASSWORD MATCHES
+            boolean doesPasswordMatch = passwordEncoder.matches(password, user.getPassword());
+            if(!doesPasswordMatch) return new GenericResponse<>(Constants.ERROR, Constants.PASSWORD_DOES_NOT_MATCH, null);
 
             //GENERATE TOKEN
             String jwtToken = jwtService.generateToken(user).getData();

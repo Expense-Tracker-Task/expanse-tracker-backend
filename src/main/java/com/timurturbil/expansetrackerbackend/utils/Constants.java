@@ -9,6 +9,7 @@ public class Constants {
     //AUTH
     public static final String USER_REGISTERED = "User registered successfully";
     public static final String USER_LOGGED_IN = "User logged in successfully";
+    public static final String PASSWORD_DOES_NOT_MATCH = "Password does not match";
 
 
     //USER
