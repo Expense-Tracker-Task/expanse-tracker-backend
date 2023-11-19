@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(path = "/category")
+@RequestMapping(path = "/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
@@ -26,9 +26,9 @@ public class CategoryController {
         return categoryService.saveCategory(categoryDto);
     }
 
-    @PutMapping(path = "", consumes = "application/json", produces = "application/json")
-    public GenericResponse<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto) {
-        return categoryService.updateCategory(categoryDto);
+    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    public GenericResponse<CategoryDto> updateCategory(@PathVariable int id, @Valid @RequestBody CategoryDto categoryDto) {
+        return categoryService.updateCategory(id, categoryDto);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -36,7 +36,7 @@ public class CategoryController {
         return categoryService.deleteCategory(id);
     }
 
-    @GetMapping(path = "/all", produces = "application/json")
+    @GetMapping(path = "", produces = "application/json")
     public GenericResponse<List<CategoryDto>> getAllCategories(@RequestHeader("Authorization") String bearerToken){
         return categoryService.getAllCategories(bearerToken);
     }

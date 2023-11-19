@@ -42,10 +42,10 @@ public class CategoryService {
             return new GenericResponse<>(Constants.ERROR, e.getMessage(), null);
         }
     }
-    public GenericResponse<CategoryDto> updateCategory(CategoryDto categoryDto){
+    public GenericResponse<CategoryDto> updateCategory(int id, CategoryDto categoryDto){
         try {
             //GET CATEGORY FROM DB
-            Category category = repository.findById((long) categoryDto.getId());
+            Category category = repository.findById(id);
             //UPDATE CATEGORY
             category.setName(categoryDto.getName());
             //SAVE CATEGORY
