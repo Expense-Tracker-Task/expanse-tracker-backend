@@ -35,6 +35,8 @@ public class Constants {
     public static final String TRANSACTIONS_FOUND = "Transactions found";
 
 
+    //DASHBOARD DATA
+    public static final String DASHBOARD_DATA_FOUND = "Dashboard Data found";
 
 
 }
