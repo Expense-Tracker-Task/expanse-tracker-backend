@@ -5,11 +5,8 @@
     https://www.postman.com/science-astronomer-97868904/workspace/public-workspace
 
 # DATABASE
-
-	Local db kullanılmıştır.
-	name: postgres
-	password: Deneme123.
-
+	PostgreSQL db kullanılmıştır.
+ 
 	DATABASE TABLES NAME CONVENTION: (Plural or Singular):
 		https://medium.com/@fbnlsr/the-table-naming-dilemma-singular-vs-plural-dc260d90aaff
 
