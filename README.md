@@ -5,7 +5,7 @@
     https://www.postman.com/science-astronomer-97868904/workspace/public-workspace
 
 # DATABASE
-	PostgreSQL db kullanılmıştır.
+	PostgreSQL DB kullanılmıştır.
 
  	ARAŞTIRILAN KONULAR:
 		DATABASE TABLES NAME CONVENTION: (Plural or Singular):
