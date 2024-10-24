@@ -2,7 +2,7 @@
     https://gist.github.com/destan/36bb745c645440716a035c72f2ecf1ec
 
 # POSTMAN
-    https://www.postman.com/science-astronomer-97868904/workspace/public-workspace
+    https://www.postman.com/science-astronomer-97868904/public-workspace/overview
 
 # DATABASE
 	PostgreSQL DB kullanılmıştır.
