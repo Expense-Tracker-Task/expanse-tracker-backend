@@ -80,5 +80,5 @@
 		ALLOWING CORS WITH AUTHENTICATED REQUESTS:
 			https://stackoverflow.com/questions/76682586/allow-cors-with-spring-security-6-1-1-with-authenticated-requests/77352249#77352249
 		
-	REVIEWED PROJECT:
+	INCELENEN RROJE:
 		https://github.com/AliAnilKocak/FocusTodoSpringBoot
